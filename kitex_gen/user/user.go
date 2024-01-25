@@ -2352,6 +2352,7 @@ func (p *GetUserInfoResponse) Field2DeepEqual(src *User) bool {
 type UploadUserAvatarRequest struct {
 	Token  string `thrift:"token,1" frugal:"1,default,string" json:"token"`
 	Avatar []byte `thrift:"avatar,2" frugal:"2,default,binary" json:"avatar"`
+	Format string `thrift:"format,3" frugal:"3,default,string" json:"format"`
 }
 
 func NewUploadUserAvatarRequest() *UploadUserAvatarRequest {
@@ -2369,16 +2370,24 @@ func (p *UploadUserAvatarRequest) GetToken() (v string) {
 func (p *UploadUserAvatarRequest) GetAvatar() (v []byte) {
 	return p.Avatar
 }
+
+func (p *UploadUserAvatarRequest) GetFormat() (v string) {
+	return p.Format
+}
 func (p *UploadUserAvatarRequest) SetToken(val string) {
 	p.Token = val
 }
 func (p *UploadUserAvatarRequest) SetAvatar(val []byte) {
 	p.Avatar = val
 }
+func (p *UploadUserAvatarRequest) SetFormat(val string) {
+	p.Format = val
+}
 
 var fieldIDToName_UploadUserAvatarRequest = map[int16]string{
 	1: "token",
 	2: "avatar",
+	3: "format",
 }
 
 func (p *UploadUserAvatarRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -2411,6 +2420,14 @@ func (p *UploadUserAvatarRequest) Read(iprot thrift.TProtocol) (err error) {
 		case 2:
 			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 3:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField3(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -2463,6 +2480,15 @@ func (p *UploadUserAvatarRequest) ReadField2(iprot thrift.TProtocol) error {
 	}
 	return nil
 }
+func (p *UploadUserAvatarRequest) ReadField3(iprot thrift.TProtocol) error {
+
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.Format = v
+	}
+	return nil
+}
 
 func (p *UploadUserAvatarRequest) Write(oprot thrift.TProtocol) (err error) {
 	var fieldId int16
@@ -2476,6 +2502,10 @@ func (p *UploadUserAvatarRequest) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField2(oprot); err != nil {
 			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
 			goto WriteFieldError
 		}
 	}
@@ -2530,6 +2560,23 @@ WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
 }
 
+func (p *UploadUserAvatarRequest) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("format", thrift.STRING, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Format); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
 func (p *UploadUserAvatarRequest) String() string {
 	if p == nil {
 		return "<nil>"
@@ -2550,6 +2597,9 @@ func (p *UploadUserAvatarRequest) DeepEqual(ano *UploadUserAvatarRequest) bool {
 	if !p.Field2DeepEqual(ano.Avatar) {
 		return false
 	}
+	if !p.Field3DeepEqual(ano.Format) {
+		return false
+	}
 	return true
 }
 
@@ -2563,6 +2613,13 @@ func (p *UploadUserAvatarRequest) Field1DeepEqual(src string) bool {
 func (p *UploadUserAvatarRequest) Field2DeepEqual(src []byte) bool {
 
 	if bytes.Compare(p.Avatar, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *UploadUserAvatarRequest) Field3DeepEqual(src string) bool {
+
+	if strings.Compare(p.Format, src) != 0 {
 		return false
 	}
 	return true

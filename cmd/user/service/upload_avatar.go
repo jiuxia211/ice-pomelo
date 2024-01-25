@@ -26,7 +26,7 @@ func (s *UserService) UploadUserAvater(req *user.UploadUserAvatarRequest, uid in
 		},
 	})
 
-	key := fmt.Sprintf("%d_%s_avatar.png", uid, utils.GetTime())
+	key := fmt.Sprintf("%d_%s_avatar%s", uid, utils.GetTime(), req.Format)
 	fileReader := bytes.NewReader(req.Avatar)
 	avatar_url := "https://" + config.ConfigInfo.Cos.BucketName + "." + config.ConfigInfo.Cos.Region + "/" + key
 	_, err = client.Object.Put(s.ctx, key, fileReader, nil)

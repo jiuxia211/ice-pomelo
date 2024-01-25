@@ -55,6 +55,7 @@ struct GetUserInfoResponse{
 struct UploadUserAvatarRequest{
     1: string token
     2: binary avatar
+    3: string format
 }
 
 struct UploadUserAvatarResponse{

@@ -5,6 +5,7 @@ package api
 import (
 	"context"
 	"io"
+	"path/filepath"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	api "github.com/jiuxia211/ice-pomelo/cmd/api/biz/model/api"
@@ -134,7 +135,10 @@ func UploadUserAvatar(ctx context.Context, c *app.RequestContext) {
 	if err != nil {
 		pack.SendFailResponse(c, err)
 		return
+
 	}
+	// 简单的使用文件后缀来获取图片格式
+	fileExt := filepath.Ext(file.Filename)
 	fileContent, err := file.Open()
 	if err != nil {
 		pack.SendFailResponse(c, err)
@@ -151,6 +155,7 @@ func UploadUserAvatar(ctx context.Context, c *app.RequestContext) {
 	user, err := rpc.UserUploadAvatar(ctx, &user.UploadUserAvatarRequest{
 		Token:  req.Token,
 		Avatar: byteContainer,
+		Format: fileExt,
 	})
 	if err != nil {
 		pack.SendFailResponse(c, err)
