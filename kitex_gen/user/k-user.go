@@ -505,20 +505,6 @@ func (p *RegisterRequest) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
-		case 5:
-			if fieldTypeId == thrift.STRING {
-				l, err = p.FastReadField5(buf[offset:])
-				offset += l
-				if err != nil {
-					goto ReadFieldError
-				}
-			} else {
-				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
-				offset += l
-				if err != nil {
-					goto SkipFieldError
-				}
-			}
 		default:
 			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
 			offset += l
@@ -562,7 +548,7 @@ func (p *RegisterRequest) FastReadField1(buf []byte) (int, error) {
 	} else {
 		offset += l
 
-		p.ApiToken = v
+		p.Username = v
 
 	}
 	return offset, nil
@@ -576,7 +562,7 @@ func (p *RegisterRequest) FastReadField2(buf []byte) (int, error) {
 	} else {
 		offset += l
 
-		p.Username = v
+		p.Password = v
 
 	}
 	return offset, nil
@@ -590,27 +576,13 @@ func (p *RegisterRequest) FastReadField3(buf []byte) (int, error) {
 	} else {
 		offset += l
 
-		p.Password = v
-
-	}
-	return offset, nil
-}
-
-func (p *RegisterRequest) FastReadField4(buf []byte) (int, error) {
-	offset := 0
-
-	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
-		return offset, err
-	} else {
-		offset += l
-
 		p.Email = v
 
 	}
 	return offset, nil
 }
 
-func (p *RegisterRequest) FastReadField5(buf []byte) (int, error) {
+func (p *RegisterRequest) FastReadField4(buf []byte) (int, error) {
 	offset := 0
 
 	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
@@ -637,7 +609,6 @@ func (p *RegisterRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.Binar
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 		offset += p.fastWriteField3(buf[offset:], binaryWriter)
 		offset += p.fastWriteField4(buf[offset:], binaryWriter)
-		offset += p.fastWriteField5(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -652,7 +623,6 @@ func (p *RegisterRequest) BLength() int {
 		l += p.field2Length()
 		l += p.field3Length()
 		l += p.field4Length()
-		l += p.field5Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -661,8 +631,8 @@ func (p *RegisterRequest) BLength() int {
 
 func (p *RegisterRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "apiToken", thrift.STRING, 1)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.ApiToken)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "username", thrift.STRING, 1)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Username)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -670,8 +640,8 @@ func (p *RegisterRequest) fastWriteField1(buf []byte, binaryWriter bthrift.Binar
 
 func (p *RegisterRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "username", thrift.STRING, 2)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Username)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "password", thrift.STRING, 2)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Password)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -679,8 +649,8 @@ func (p *RegisterRequest) fastWriteField2(buf []byte, binaryWriter bthrift.Binar
 
 func (p *RegisterRequest) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "password", thrift.STRING, 3)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Password)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "email", thrift.STRING, 3)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Email)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -688,16 +658,7 @@ func (p *RegisterRequest) fastWriteField3(buf []byte, binaryWriter bthrift.Binar
 
 func (p *RegisterRequest) fastWriteField4(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "email", thrift.STRING, 4)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Email)
-
-	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
-	return offset
-}
-
-func (p *RegisterRequest) fastWriteField5(buf []byte, binaryWriter bthrift.BinaryWriter) int {
-	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "verificationCode", thrift.STRING, 5)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "verificationCode", thrift.STRING, 4)
 	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.VerificationCode)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
@@ -706,8 +667,8 @@ func (p *RegisterRequest) fastWriteField5(buf []byte, binaryWriter bthrift.Binar
 
 func (p *RegisterRequest) field1Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("apiToken", thrift.STRING, 1)
-	l += bthrift.Binary.StringLengthNocopy(p.ApiToken)
+	l += bthrift.Binary.FieldBeginLength("username", thrift.STRING, 1)
+	l += bthrift.Binary.StringLengthNocopy(p.Username)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
@@ -715,8 +676,8 @@ func (p *RegisterRequest) field1Length() int {
 
 func (p *RegisterRequest) field2Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("username", thrift.STRING, 2)
-	l += bthrift.Binary.StringLengthNocopy(p.Username)
+	l += bthrift.Binary.FieldBeginLength("password", thrift.STRING, 2)
+	l += bthrift.Binary.StringLengthNocopy(p.Password)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
@@ -724,8 +685,8 @@ func (p *RegisterRequest) field2Length() int {
 
 func (p *RegisterRequest) field3Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("password", thrift.STRING, 3)
-	l += bthrift.Binary.StringLengthNocopy(p.Password)
+	l += bthrift.Binary.FieldBeginLength("email", thrift.STRING, 3)
+	l += bthrift.Binary.StringLengthNocopy(p.Email)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
@@ -733,16 +694,7 @@ func (p *RegisterRequest) field3Length() int {
 
 func (p *RegisterRequest) field4Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("email", thrift.STRING, 4)
-	l += bthrift.Binary.StringLengthNocopy(p.Email)
-
-	l += bthrift.Binary.FieldEndLength()
-	return l
-}
-
-func (p *RegisterRequest) field5Length() int {
-	l := 0
-	l += bthrift.Binary.FieldBeginLength("verificationCode", thrift.STRING, 5)
+	l += bthrift.Binary.FieldBeginLength("verificationCode", thrift.STRING, 4)
 	l += bthrift.Binary.StringLengthNocopy(p.VerificationCode)
 
 	l += bthrift.Binary.FieldEndLength()
@@ -974,20 +926,6 @@ func (p *LoginRequest) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
-		case 3:
-			if fieldTypeId == thrift.STRING {
-				l, err = p.FastReadField3(buf[offset:])
-				offset += l
-				if err != nil {
-					goto ReadFieldError
-				}
-			} else {
-				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
-				offset += l
-				if err != nil {
-					goto SkipFieldError
-				}
-			}
 		default:
 			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
 			offset += l
@@ -1031,27 +969,13 @@ func (p *LoginRequest) FastReadField1(buf []byte) (int, error) {
 	} else {
 		offset += l
 
-		p.ApiToken = v
-
-	}
-	return offset, nil
-}
-
-func (p *LoginRequest) FastReadField2(buf []byte) (int, error) {
-	offset := 0
-
-	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
-		return offset, err
-	} else {
-		offset += l
-
 		p.Username = v
 
 	}
 	return offset, nil
 }
 
-func (p *LoginRequest) FastReadField3(buf []byte) (int, error) {
+func (p *LoginRequest) FastReadField2(buf []byte) (int, error) {
 	offset := 0
 
 	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
@@ -1076,7 +1000,6 @@ func (p *LoginRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWr
 	if p != nil {
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
-		offset += p.fastWriteField3(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -1089,7 +1012,6 @@ func (p *LoginRequest) BLength() int {
 	if p != nil {
 		l += p.field1Length()
 		l += p.field2Length()
-		l += p.field3Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -1098,8 +1020,8 @@ func (p *LoginRequest) BLength() int {
 
 func (p *LoginRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "apiToken", thrift.STRING, 1)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.ApiToken)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "username", thrift.STRING, 1)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Username)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -1107,16 +1029,7 @@ func (p *LoginRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWr
 
 func (p *LoginRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "username", thrift.STRING, 2)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Username)
-
-	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
-	return offset
-}
-
-func (p *LoginRequest) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
-	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "password", thrift.STRING, 3)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "password", thrift.STRING, 2)
 	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Password)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
@@ -1125,8 +1038,8 @@ func (p *LoginRequest) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWr
 
 func (p *LoginRequest) field1Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("apiToken", thrift.STRING, 1)
-	l += bthrift.Binary.StringLengthNocopy(p.ApiToken)
+	l += bthrift.Binary.FieldBeginLength("username", thrift.STRING, 1)
+	l += bthrift.Binary.StringLengthNocopy(p.Username)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
@@ -1134,16 +1047,7 @@ func (p *LoginRequest) field1Length() int {
 
 func (p *LoginRequest) field2Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("username", thrift.STRING, 2)
-	l += bthrift.Binary.StringLengthNocopy(p.Username)
-
-	l += bthrift.Binary.FieldEndLength()
-	return l
-}
-
-func (p *LoginRequest) field3Length() int {
-	l := 0
-	l += bthrift.Binary.FieldBeginLength("password", thrift.STRING, 3)
+	l += bthrift.Binary.FieldBeginLength("password", thrift.STRING, 2)
 	l += bthrift.Binary.StringLengthNocopy(p.Password)
 
 	l += bthrift.Binary.FieldEndLength()
@@ -1409,20 +1313,6 @@ func (p *SendVerificationCodeRequest) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
-		case 2:
-			if fieldTypeId == thrift.STRING {
-				l, err = p.FastReadField2(buf[offset:])
-				offset += l
-				if err != nil {
-					goto ReadFieldError
-				}
-			} else {
-				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
-				offset += l
-				if err != nil {
-					goto SkipFieldError
-				}
-			}
 		default:
 			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
 			offset += l
@@ -1466,20 +1356,6 @@ func (p *SendVerificationCodeRequest) FastReadField1(buf []byte) (int, error) {
 	} else {
 		offset += l
 
-		p.ApiToken = v
-
-	}
-	return offset, nil
-}
-
-func (p *SendVerificationCodeRequest) FastReadField2(buf []byte) (int, error) {
-	offset := 0
-
-	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
-		return offset, err
-	} else {
-		offset += l
-
 		p.Email = v
 
 	}
@@ -1496,7 +1372,6 @@ func (p *SendVerificationCodeRequest) FastWriteNocopy(buf []byte, binaryWriter b
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "SendVerificationCodeRequest")
 	if p != nil {
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
-		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -1508,7 +1383,6 @@ func (p *SendVerificationCodeRequest) BLength() int {
 	l += bthrift.Binary.StructBeginLength("SendVerificationCodeRequest")
 	if p != nil {
 		l += p.field1Length()
-		l += p.field2Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -1517,16 +1391,7 @@ func (p *SendVerificationCodeRequest) BLength() int {
 
 func (p *SendVerificationCodeRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "apiToken", thrift.STRING, 1)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.ApiToken)
-
-	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
-	return offset
-}
-
-func (p *SendVerificationCodeRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
-	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "email", thrift.STRING, 2)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "email", thrift.STRING, 1)
 	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Email)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
@@ -1535,16 +1400,7 @@ func (p *SendVerificationCodeRequest) fastWriteField2(buf []byte, binaryWriter b
 
 func (p *SendVerificationCodeRequest) field1Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("apiToken", thrift.STRING, 1)
-	l += bthrift.Binary.StringLengthNocopy(p.ApiToken)
-
-	l += bthrift.Binary.FieldEndLength()
-	return l
-}
-
-func (p *SendVerificationCodeRequest) field2Length() int {
-	l := 0
-	l += bthrift.Binary.FieldBeginLength("email", thrift.STRING, 2)
+	l += bthrift.Binary.FieldBeginLength("email", thrift.STRING, 1)
 	l += bthrift.Binary.StringLengthNocopy(p.Email)
 
 	l += bthrift.Binary.FieldEndLength()
@@ -1715,22 +1571,8 @@ func (p *GetUserInfoRequest) FastRead(buf []byte) (int, error) {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.STRING {
-				l, err = p.FastReadField2(buf[offset:])
-				offset += l
-				if err != nil {
-					goto ReadFieldError
-				}
-			} else {
-				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
-				offset += l
-				if err != nil {
-					goto SkipFieldError
-				}
-			}
-		case 3:
 			if fieldTypeId == thrift.I64 {
-				l, err = p.FastReadField3(buf[offset:])
+				l, err = p.FastReadField2(buf[offset:])
 				offset += l
 				if err != nil {
 					goto ReadFieldError
@@ -1785,27 +1627,13 @@ func (p *GetUserInfoRequest) FastReadField1(buf []byte) (int, error) {
 	} else {
 		offset += l
 
-		p.ApiToken = v
-
-	}
-	return offset, nil
-}
-
-func (p *GetUserInfoRequest) FastReadField2(buf []byte) (int, error) {
-	offset := 0
-
-	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
-		return offset, err
-	} else {
-		offset += l
-
 		p.Token = v
 
 	}
 	return offset, nil
 }
 
-func (p *GetUserInfoRequest) FastReadField3(buf []byte) (int, error) {
+func (p *GetUserInfoRequest) FastReadField2(buf []byte) (int, error) {
 	offset := 0
 
 	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
@@ -1828,9 +1656,8 @@ func (p *GetUserInfoRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.Bi
 	offset := 0
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetUserInfoRequest")
 	if p != nil {
-		offset += p.fastWriteField3(buf[offset:], binaryWriter)
-		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
+		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -1843,7 +1670,6 @@ func (p *GetUserInfoRequest) BLength() int {
 	if p != nil {
 		l += p.field1Length()
 		l += p.field2Length()
-		l += p.field3Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -1852,8 +1678,8 @@ func (p *GetUserInfoRequest) BLength() int {
 
 func (p *GetUserInfoRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "apiToken", thrift.STRING, 1)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.ApiToken)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "token", thrift.STRING, 1)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Token)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -1861,16 +1687,7 @@ func (p *GetUserInfoRequest) fastWriteField1(buf []byte, binaryWriter bthrift.Bi
 
 func (p *GetUserInfoRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "token", thrift.STRING, 2)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Token)
-
-	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
-	return offset
-}
-
-func (p *GetUserInfoRequest) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
-	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "id", thrift.I64, 3)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "id", thrift.I64, 2)
 	offset += bthrift.Binary.WriteI64(buf[offset:], p.Id)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
@@ -1879,8 +1696,8 @@ func (p *GetUserInfoRequest) fastWriteField3(buf []byte, binaryWriter bthrift.Bi
 
 func (p *GetUserInfoRequest) field1Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("apiToken", thrift.STRING, 1)
-	l += bthrift.Binary.StringLengthNocopy(p.ApiToken)
+	l += bthrift.Binary.FieldBeginLength("token", thrift.STRING, 1)
+	l += bthrift.Binary.StringLengthNocopy(p.Token)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
@@ -1888,16 +1705,7 @@ func (p *GetUserInfoRequest) field1Length() int {
 
 func (p *GetUserInfoRequest) field2Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("token", thrift.STRING, 2)
-	l += bthrift.Binary.StringLengthNocopy(p.Token)
-
-	l += bthrift.Binary.FieldEndLength()
-	return l
-}
-
-func (p *GetUserInfoRequest) field3Length() int {
-	l := 0
-	l += bthrift.Binary.FieldBeginLength("id", thrift.I64, 3)
+	l += bthrift.Binary.FieldBeginLength("id", thrift.I64, 2)
 	l += bthrift.Binary.I64Length(p.Id)
 
 	l += bthrift.Binary.FieldEndLength()

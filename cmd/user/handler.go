@@ -17,11 +17,6 @@ type UserServiceImpl struct{}
 func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterRequest) (resp *user.RegisterResponse, err error) {
 	resp = new(user.RegisterResponse)
 
-	if _, err := utils.CheckApiToken(req.ApiToken); err != nil {
-		resp.Base = pack.BuildBaseResp(err)
-		return resp, nil
-	}
-
 	if len(req.Username) == 0 || len(req.Username) > 255 || len(req.Password) == 0 || len(req.Password) > 255 {
 		resp.Base = pack.BuildBaseResp(errors.New("invalid user name or password"))
 		return resp, nil
@@ -41,11 +36,6 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterReques
 // Login implements the UserServiceImpl interface.
 func (s *UserServiceImpl) Login(ctx context.Context, req *user.LoginRequest) (resp *user.LoginResponse, err error) {
 	resp = new(user.LoginResponse)
-
-	if _, err := utils.CheckApiToken(req.ApiToken); err != nil {
-		resp.Base = pack.BuildBaseResp(err)
-		return resp, nil
-	}
 
 	userResp, err := service.NewUserService(ctx).CheckUser(req)
 	if err != nil {
@@ -69,11 +59,6 @@ func (s *UserServiceImpl) Login(ctx context.Context, req *user.LoginRequest) (re
 func (s *UserServiceImpl) SendVerificationCode(ctx context.Context, req *user.SendVerificationCodeRequest) (resp *user.SendVerificationCodeResponse, err error) {
 	resp = new(user.SendVerificationCodeResponse)
 
-	if _, err := utils.CheckApiToken(req.ApiToken); err != nil {
-		resp.Base = pack.BuildBaseResp(err)
-		return resp, nil
-	}
-
 	err = service.NewUserService(ctx).SendVertificationCode(req)
 	if err != nil {
 		resp.Base = pack.BuildBaseResp(err)
@@ -87,11 +72,6 @@ func (s *UserServiceImpl) SendVerificationCode(ctx context.Context, req *user.Se
 // GetUserInfo implements the UserServiceImpl interface.
 func (s *UserServiceImpl) GetUserInfo(ctx context.Context, req *user.GetUserInfoRequest) (resp *user.GetUserInfoResponse, err error) {
 	resp = new(user.GetUserInfoResponse)
-
-	if _, err := utils.CheckApiToken(req.ApiToken); err != nil {
-		resp.Base = pack.BuildBaseResp(err)
-		return resp, nil
-	}
 
 	if _, err := utils.CheckToken(req.Token); err != nil {
 		resp.Base = pack.BuildBaseResp(err)

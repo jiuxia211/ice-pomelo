@@ -46,33 +46,3 @@ func CheckToken(token string) (*Claims, error) {
 
 	return nil, err
 }
-
-func CreateApiToken() (string, error) {
-	expireTime := time.Now().Add(time.Minute) // 过期时间为1分钟
-	nowTime := time.Now()                     // 当前时间
-	apiClaims := ApiClaims{
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expireTime.Unix(), // 过期时间戳
-			IssuedAt:  nowTime.Unix(),    // 当前时间戳
-			Issuer:    "ice_pomelo",      // 颁发者签名
-		},
-	}
-	tokenStruct := jwt.NewWithClaims(jwt.SigningMethodHS256, apiClaims)
-	return tokenStruct.SignedString([]byte(constants.JWTValue))
-}
-
-func CheckApiToken(token string) (*Claims, error) {
-	response, err := jwt.ParseWithClaims(token, &ApiClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(constants.JWTValue), nil
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	if resp, ok := response.Claims.(*Claims); ok && response.Valid {
-		return resp, nil
-	}
-
-	return nil, err
-}

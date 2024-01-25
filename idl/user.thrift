@@ -12,11 +12,10 @@ struct User {
 }
 
 struct RegisterRequest{
-    1: string apiToken
-    2: string username
-    3: string password
-    4: string email
-    5: string verificationCode
+    1: string username
+    2: string password
+    3: string email
+    4: string verificationCode
 }
 
 struct RegisterResponse{
@@ -25,9 +24,8 @@ struct RegisterResponse{
 }
 
 struct LoginRequest{
-    1: string apiToken
-    2: string username
-    3: string password
+    1: string username
+    2: string password
 }
 
 struct LoginResponse{
@@ -37,8 +35,7 @@ struct LoginResponse{
 }
 
 struct SendVerificationCodeRequest{
-    1: string apiToken
-    2: string email
+    1: string email
 }
 
 struct SendVerificationCodeResponse{
@@ -46,9 +43,8 @@ struct SendVerificationCodeResponse{
 }
 
 struct GetUserInfoRequest{
-    1: string apiToken
-    2: string token
-    3: i64 id
+    1: string token
+    2: i64 id
 }
 
 struct GetUserInfoResponse{

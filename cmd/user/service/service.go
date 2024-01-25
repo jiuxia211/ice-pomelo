@@ -17,7 +17,7 @@ func NewUserService(ctx context.Context) *UserService {
 	return &UserService{ctx: ctx}
 }
 
-func getID(ctx context.Context, apiToken string) (id int64, err error) {
+func getID(ctx context.Context) (id int64, err error) {
 	tinyID := new(cache.TinyID)
 
 	tinyID, err = cache.GetID(ctx)
@@ -26,7 +26,7 @@ func getID(ctx context.Context, apiToken string) (id int64, err error) {
 	}
 
 	if tinyID.NextID > tinyID.MaxID {
-		maxID, err := rpc.GetMaxTinyID(ctx, &tiny_id.GetMaxIDRequest{ApiToken: apiToken, BizType: constants.UserBizType})
+		maxID, err := rpc.GetMaxTinyID(ctx, &tiny_id.GetMaxIDRequest{BizType: constants.UserBizType})
 		if err != nil {
 			return 0, err
 		}

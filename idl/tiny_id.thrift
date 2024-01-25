@@ -6,8 +6,7 @@ struct BaseResp {
 }
 
 struct GetMaxIDRequest{
-    1:string apiToken
-    2:i64 bizType
+    1:i64 bizType
 }
 
 struct GetMaxIDResponse{

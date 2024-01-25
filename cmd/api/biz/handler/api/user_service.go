@@ -10,7 +10,6 @@ import (
 	"github.com/jiuxia211/ice-pomelo/cmd/api/biz/pack"
 	"github.com/jiuxia211/ice-pomelo/cmd/api/biz/rpc"
 	"github.com/jiuxia211/ice-pomelo/kitex_gen/user"
-	"github.com/jiuxia211/ice-pomelo/pkg/utils"
 )
 
 // Register .
@@ -26,15 +25,7 @@ func Register(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.RegisterResponse)
 
-	apiToken, err := utils.CreateApiToken()
-	if err != nil {
-		pack.SendFailResponse(c, err)
-		return
-
-	}
-
 	resp.ID, err = rpc.UserRegister(ctx, &user.RegisterRequest{
-		ApiToken:         apiToken,
 		Username:         req.Username,
 		Password:         req.Password,
 		Email:            req.Email,
@@ -62,15 +53,7 @@ func Login(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.LoginResponse)
 
-	apiToken, err := utils.CreateApiToken()
-	if err != nil {
-		pack.SendFailResponse(c, err)
-		return
-
-	}
-
 	resp.ID, resp.Token, err = rpc.UserLogin(ctx, &user.LoginRequest{
-		ApiToken: apiToken,
 		Username: req.Username,
 		Password: req.Password,
 	})
@@ -96,16 +79,8 @@ func SendVerificationCode(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.SendVerificationCodeResponse)
 
-	apiToken, err := utils.CreateApiToken()
-	if err != nil {
-		pack.SendFailResponse(c, err)
-		return
-
-	}
-
 	err = rpc.UserSendVerificationCode(ctx, &user.SendVerificationCodeRequest{
-		ApiToken: apiToken,
-		Email:    req.Email,
+		Email: req.Email,
 	})
 	if err != nil {
 		pack.SendFailResponse(c, err)
@@ -129,17 +104,9 @@ func GetUserInfo(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(api.GetUserInfoResponse)
 
-	apiToken, err := utils.CreateApiToken()
-	if err != nil {
-		pack.SendFailResponse(c, err)
-		return
-
-	}
-
 	user, err := rpc.UserInfo(ctx, &user.GetUserInfoRequest{
-		ApiToken: apiToken,
-		Token:    req.Token,
-		Id:       req.ID,
+		Token: req.Token,
+		Id:    req.ID,
 	})
 	if err != nil {
 		pack.SendFailResponse(c, err)

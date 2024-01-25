@@ -224,22 +224,8 @@ func (p *GetMaxIDRequest) FastRead(buf []byte) (int, error) {
 		}
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.STRING {
-				l, err = p.FastReadField1(buf[offset:])
-				offset += l
-				if err != nil {
-					goto ReadFieldError
-				}
-			} else {
-				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
-				offset += l
-				if err != nil {
-					goto SkipFieldError
-				}
-			}
-		case 2:
 			if fieldTypeId == thrift.I64 {
-				l, err = p.FastReadField2(buf[offset:])
+				l, err = p.FastReadField1(buf[offset:])
 				offset += l
 				if err != nil {
 					goto ReadFieldError
@@ -289,20 +275,6 @@ ReadStructEndError:
 func (p *GetMaxIDRequest) FastReadField1(buf []byte) (int, error) {
 	offset := 0
 
-	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
-		return offset, err
-	} else {
-		offset += l
-
-		p.ApiToken = v
-
-	}
-	return offset, nil
-}
-
-func (p *GetMaxIDRequest) FastReadField2(buf []byte) (int, error) {
-	offset := 0
-
 	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
 		return offset, err
 	} else {
@@ -323,7 +295,6 @@ func (p *GetMaxIDRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.Binar
 	offset := 0
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "GetMaxIDRequest")
 	if p != nil {
-		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
@@ -336,7 +307,6 @@ func (p *GetMaxIDRequest) BLength() int {
 	l += bthrift.Binary.StructBeginLength("GetMaxIDRequest")
 	if p != nil {
 		l += p.field1Length()
-		l += p.field2Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -345,16 +315,7 @@ func (p *GetMaxIDRequest) BLength() int {
 
 func (p *GetMaxIDRequest) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "apiToken", thrift.STRING, 1)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.ApiToken)
-
-	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
-	return offset
-}
-
-func (p *GetMaxIDRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
-	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "bizType", thrift.I64, 2)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "bizType", thrift.I64, 1)
 	offset += bthrift.Binary.WriteI64(buf[offset:], p.BizType)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
@@ -363,16 +324,7 @@ func (p *GetMaxIDRequest) fastWriteField2(buf []byte, binaryWriter bthrift.Binar
 
 func (p *GetMaxIDRequest) field1Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("apiToken", thrift.STRING, 1)
-	l += bthrift.Binary.StringLengthNocopy(p.ApiToken)
-
-	l += bthrift.Binary.FieldEndLength()
-	return l
-}
-
-func (p *GetMaxIDRequest) field2Length() int {
-	l := 0
-	l += bthrift.Binary.FieldBeginLength("bizType", thrift.I64, 2)
+	l += bthrift.Binary.FieldBeginLength("bizType", thrift.I64, 1)
 	l += bthrift.Binary.I64Length(p.BizType)
 
 	l += bthrift.Binary.FieldEndLength()

@@ -30,7 +30,7 @@ func (s *UserService) CreateUser(req *user.RegisterRequest) (userResp *db.User, 
 	_, err = db.GetUserByUsername(s.ctx, req.Username)
 	if err == gorm.ErrRecordNotFound {
 		// 4.获取可用id
-		id, err := getID(s.ctx, req.ApiToken)
+		id, err := getID(s.ctx)
 		if err != nil {
 			return nil, err
 		}

@@ -229,8 +229,7 @@ func (p *BaseResp) Field2DeepEqual(src string) bool {
 }
 
 type GetMaxIDRequest struct {
-	ApiToken string `thrift:"apiToken,1" frugal:"1,default,string" json:"apiToken"`
-	BizType  int64  `thrift:"bizType,2" frugal:"2,default,i64" json:"bizType"`
+	BizType int64 `thrift:"bizType,1" frugal:"1,default,i64" json:"bizType"`
 }
 
 func NewGetMaxIDRequest() *GetMaxIDRequest {
@@ -241,23 +240,15 @@ func (p *GetMaxIDRequest) InitDefault() {
 	*p = GetMaxIDRequest{}
 }
 
-func (p *GetMaxIDRequest) GetApiToken() (v string) {
-	return p.ApiToken
-}
-
 func (p *GetMaxIDRequest) GetBizType() (v int64) {
 	return p.BizType
-}
-func (p *GetMaxIDRequest) SetApiToken(val string) {
-	p.ApiToken = val
 }
 func (p *GetMaxIDRequest) SetBizType(val int64) {
 	p.BizType = val
 }
 
 var fieldIDToName_GetMaxIDRequest = map[int16]string{
-	1: "apiToken",
-	2: "bizType",
+	1: "bizType",
 }
 
 func (p *GetMaxIDRequest) Read(iprot thrift.TProtocol) (err error) {
@@ -280,16 +271,8 @@ func (p *GetMaxIDRequest) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.STRING {
-				if err = p.ReadField1(iprot); err != nil {
-					goto ReadFieldError
-				}
-			} else if err = iprot.Skip(fieldTypeId); err != nil {
-				goto SkipFieldError
-			}
-		case 2:
 			if fieldTypeId == thrift.I64 {
-				if err = p.ReadField2(iprot); err != nil {
+				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else if err = iprot.Skip(fieldTypeId); err != nil {
@@ -326,15 +309,6 @@ ReadStructEndError:
 
 func (p *GetMaxIDRequest) ReadField1(iprot thrift.TProtocol) error {
 
-	if v, err := iprot.ReadString(); err != nil {
-		return err
-	} else {
-		p.ApiToken = v
-	}
-	return nil
-}
-func (p *GetMaxIDRequest) ReadField2(iprot thrift.TProtocol) error {
-
 	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
@@ -351,10 +325,6 @@ func (p *GetMaxIDRequest) Write(oprot thrift.TProtocol) (err error) {
 	if p != nil {
 		if err = p.writeField1(oprot); err != nil {
 			fieldId = 1
-			goto WriteFieldError
-		}
-		if err = p.writeField2(oprot); err != nil {
-			fieldId = 2
 			goto WriteFieldError
 		}
 	}
@@ -376,24 +346,7 @@ WriteStructEndError:
 }
 
 func (p *GetMaxIDRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("apiToken", thrift.STRING, 1); err != nil {
-		goto WriteFieldBeginError
-	}
-	if err := oprot.WriteString(p.ApiToken); err != nil {
-		return err
-	}
-	if err = oprot.WriteFieldEnd(); err != nil {
-		goto WriteFieldEndError
-	}
-	return nil
-WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
-WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
-}
-
-func (p *GetMaxIDRequest) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("bizType", thrift.I64, 2); err != nil {
+	if err = oprot.WriteFieldBegin("bizType", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
 	if err := oprot.WriteI64(p.BizType); err != nil {
@@ -404,9 +357,9 @@ func (p *GetMaxIDRequest) writeField2(oprot thrift.TProtocol) (err error) {
 	}
 	return nil
 WriteFieldBeginError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
 WriteFieldEndError:
-	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
 }
 
 func (p *GetMaxIDRequest) String() string {
@@ -423,23 +376,13 @@ func (p *GetMaxIDRequest) DeepEqual(ano *GetMaxIDRequest) bool {
 	} else if p == nil || ano == nil {
 		return false
 	}
-	if !p.Field1DeepEqual(ano.ApiToken) {
-		return false
-	}
-	if !p.Field2DeepEqual(ano.BizType) {
+	if !p.Field1DeepEqual(ano.BizType) {
 		return false
 	}
 	return true
 }
 
-func (p *GetMaxIDRequest) Field1DeepEqual(src string) bool {
-
-	if strings.Compare(p.ApiToken, src) != 0 {
-		return false
-	}
-	return true
-}
-func (p *GetMaxIDRequest) Field2DeepEqual(src int64) bool {
+func (p *GetMaxIDRequest) Field1DeepEqual(src int64) bool {
 
 	if p.BizType != src {
 		return false
