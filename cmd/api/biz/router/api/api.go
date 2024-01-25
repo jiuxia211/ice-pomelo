@@ -19,12 +19,14 @@ func Register(r *server.Hertz) {
 	root := r.Group("/", rootMw()...)
 	{
 		_pomelo := root.Group("/pomelo", _pomeloMw()...)
+		_pomelo.GET("/user", append(_getuserinfoMw(), api.GetUserInfo)...)
+		_user := _pomelo.Group("/user", _userMw()...)
+		_user.PUT("/avatar", append(_uploaduseravatarMw(), api.UploadUserAvatar)...)
 		{
-			_user := _pomelo.Group("/user", _userMw()...)
-			_user.POST("/get", append(_getuserinfoMw(), api.GetUserInfo)...)
-			_user.POST("/login", append(_loginMw(), api.Login)...)
-			_user.POST("/register", append(_registerMw(), api.Register)...)
-			_user.POST("/verification-code", append(_sendverificationcodeMw(), api.SendVerificationCode)...)
+			_user0 := _pomelo.Group("/user", _user0Mw()...)
+			_user0.POST("/login", append(_loginMw(), api.Login)...)
+			_user0.POST("/register", append(_registerMw(), api.Register)...)
+			_user0.POST("/verification-code", append(_sendverificationcodeMw(), api.SendVerificationCode)...)
 		}
 	}
 }

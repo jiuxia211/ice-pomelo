@@ -23,6 +23,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 		"Login":                kitex.NewMethodInfo(loginHandler, newUserServiceLoginArgs, newUserServiceLoginResult, false),
 		"SendVerificationCode": kitex.NewMethodInfo(sendVerificationCodeHandler, newUserServiceSendVerificationCodeArgs, newUserServiceSendVerificationCodeResult, false),
 		"GetUserInfo":          kitex.NewMethodInfo(getUserInfoHandler, newUserServiceGetUserInfoArgs, newUserServiceGetUserInfoResult, false),
+		"UploadUserAvatar":     kitex.NewMethodInfo(uploadUserAvatarHandler, newUserServiceUploadUserAvatarArgs, newUserServiceUploadUserAvatarResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName":     "user",
@@ -111,6 +112,24 @@ func newUserServiceGetUserInfoResult() interface{} {
 	return user.NewUserServiceGetUserInfoResult()
 }
 
+func uploadUserAvatarHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*user.UserServiceUploadUserAvatarArgs)
+	realResult := result.(*user.UserServiceUploadUserAvatarResult)
+	success, err := handler.(user.UserService).UploadUserAvatar(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newUserServiceUploadUserAvatarArgs() interface{} {
+	return user.NewUserServiceUploadUserAvatarArgs()
+}
+
+func newUserServiceUploadUserAvatarResult() interface{} {
+	return user.NewUserServiceUploadUserAvatarResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -156,6 +175,16 @@ func (p *kClient) GetUserInfo(ctx context.Context, req *user.GetUserInfoRequest)
 	_args.Req = req
 	var _result user.UserServiceGetUserInfoResult
 	if err = p.c.Call(ctx, "GetUserInfo", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) UploadUserAvatar(ctx context.Context, req *user.UploadUserAvatarRequest) (r *user.UploadUserAvatarResponse, err error) {
+	var _args user.UserServiceUploadUserAvatarArgs
+	_args.Req = req
+	var _result user.UserServiceUploadUserAvatarResult
+	if err = p.c.Call(ctx, "UploadUserAvatar", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

@@ -11,8 +11,8 @@ func User(data *user.User) (userResp *api.User) {
 	}
 
 	return &api.User{
-		ID:     data.Id,
-		Name:   data.Name,
-		Avatar: data.Avatar,
+		ID:        data.Id,
+		Name:      data.Name,
+		AvatarURL: data.AvatarUrl,
 	}
 }

@@ -8,7 +8,7 @@ struct BaseResp {
 struct User {
     1: i64 id
     2: string name
-    3: string avatar
+    3: string avatar_url
 }
 
 struct RegisterRequest{
@@ -43,7 +43,7 @@ struct SendVerificationCodeResponse{
 }
 
 struct GetUserInfoRequest{
-    1: string token
+    1: string token(api.header="Authorization")
     2: i64 id
 }
 
@@ -52,9 +52,20 @@ struct GetUserInfoResponse{
     2: User user
 }
 
+struct UploadUserAvatarRequest{
+    1: string token(api.header="Authorization")
+    2: binary avatar
+}
+
+struct UploadUserAvatarResponse{
+    1: BaseResp base
+    2: User user
+}
+
 service UserService{
     RegisterResponse Register(1:RegisterRequest req) (api.post="/pomelo/user/register")
     LoginResponse Login(1:LoginRequest req) (api.post="/pomelo/user/login")
     SendVerificationCodeResponse SendVerificationCode(1:SendVerificationCodeRequest req) (api.post="/pomelo/user/verification-code")
-    GetUserInfoResponse GetUserInfo(1:GetUserInfoRequest req) (api.post="/pomelo/user/get")
+    GetUserInfoResponse GetUserInfo(1:GetUserInfoRequest req) (api.get="/pomelo/user")
+    UploadUserAvatarResponse UploadUserAvatar(1:UploadUserAvatarRequest req)(api.put="/pomelo/user/avatar")
 }

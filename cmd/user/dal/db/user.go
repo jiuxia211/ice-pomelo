@@ -12,7 +12,7 @@ type User struct {
 	Username  string
 	Password  string
 	Email     string
-	Avatar    string
+	AvatarUrl string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
@@ -41,6 +41,23 @@ func GetUser(ctx context.Context, uid int64) (user *User, err error) {
 	user = new(User)
 
 	err = DB.WithContext(ctx).First(&user, uid).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+func UpdateUserAvatar(ctx context.Context, uid int64, avatar_url string) (user *User, err error) {
+	user = new(User)
+
+	err = DB.WithContext(ctx).First(&user, uid).Error
+	if err != nil {
+		return nil, err
+	}
+
+	user.AvatarUrl = avatar_url
+	err = DB.WithContext(ctx).Save(&user).Error
 	if err != nil {
 		return nil, err
 	}

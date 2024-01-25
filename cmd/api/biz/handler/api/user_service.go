@@ -4,6 +4,7 @@ package api
 
 import (
 	"context"
+	"io"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	api "github.com/jiuxia211/ice-pomelo/cmd/api/biz/model/api"
@@ -107,6 +108,49 @@ func GetUserInfo(ctx context.Context, c *app.RequestContext) {
 	user, err := rpc.UserInfo(ctx, &user.GetUserInfoRequest{
 		Token: req.Token,
 		Id:    req.ID,
+	})
+	if err != nil {
+		pack.SendFailResponse(c, err)
+		return
+	}
+
+	resp.User = pack.User(user)
+	resp.Base = pack.BuildBaseResp(nil)
+	pack.SendResponse(c, resp)
+}
+
+// UploadUserAvatar .
+// @router /pomelo/user/avatar [POST]
+func UploadUserAvatar(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req api.UploadUserAvatarRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		pack.SendFailResponse(c, err)
+		return
+	}
+
+	file, err := c.FormFile("avatar")
+	if err != nil {
+		pack.SendFailResponse(c, err)
+		return
+	}
+	fileContent, err := file.Open()
+	if err != nil {
+		pack.SendFailResponse(c, err)
+		return
+	}
+	byteContainer, err := io.ReadAll(fileContent)
+	if err != nil {
+		pack.SendFailResponse(c, err)
+		return
+	}
+
+	resp := new(api.UploadUserAvatarResponse)
+
+	user, err := rpc.UserUploadAvatar(ctx, &user.UploadUserAvatarRequest{
+		Token:  req.Token,
+		Avatar: byteContainer,
 	})
 	if err != nil {
 		pack.SendFailResponse(c, err)

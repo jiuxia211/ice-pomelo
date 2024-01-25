@@ -35,11 +35,11 @@ func (s *UserService) CreateUser(req *user.RegisterRequest) (userResp *db.User, 
 			return nil, err
 		}
 		userModel := &db.User{
-			ID:       id,
-			Username: req.Username,
-			Password: string(hashBytes),
-			Email:    req.Email,
-			Avatar:   "todo",
+			ID:        id,
+			Username:  req.Username,
+			Password:  string(hashBytes),
+			Email:     req.Email,
+			AvatarUrl: "todo",
 		}
 
 		userResp, err = db.CreateUser(s.ctx, userModel)

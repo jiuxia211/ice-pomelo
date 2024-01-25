@@ -15,3 +15,7 @@ email:
   SmtpHost: smtp.qq.com
   SmtpEmail: 2064166368@qq.com
   SmtpPass: hukcbqioqmbedaii
+
+cos:
+  bucketName: ice-pomelo-1318531687
+  region: cos.ap-nanjing.myqcloud.com

@@ -90,3 +90,25 @@ func (s *UserServiceImpl) GetUserInfo(ctx context.Context, req *user.GetUserInfo
 
 	return
 }
+
+// UploadUserAvatar implements the UserServiceImpl interface.
+func (s *UserServiceImpl) UploadUserAvatar(ctx context.Context, req *user.UploadUserAvatarRequest) (resp *user.UploadUserAvatarResponse, err error) {
+	resp = new(user.UploadUserAvatarResponse)
+	var claims *utils.Claims
+	if claims, err = utils.CheckToken(req.Token); err != nil {
+		resp.Base = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	userResp, err := service.NewUserService(ctx).UploadUserAvater(req, claims.UserId)
+
+	if err != nil {
+		resp.Base = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+
+	resp.Base = pack.BuildBaseResp(nil)
+	resp.User = pack.User(userResp)
+
+	return
+}

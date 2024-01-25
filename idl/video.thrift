@@ -8,11 +8,13 @@ struct BaseResp {
 struct Video{
     1: i64 id
     2: i64 uid
-    2: string video_url
+    3: string video_url
+    4: string cover_url
 }
 struct UploadVideoRequest{
     1: string token
     2: binary videoFile
+    3: binary coverFile
 }
 
 struct UploadVideoResponse{

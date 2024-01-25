@@ -17,7 +17,7 @@ update:
 .PHONY: build
 build:
 	sh build.sh
-	
+
 .PHONY: server
 server:
 	make build

@@ -15,6 +15,7 @@ type Client interface {
 	Login(ctx context.Context, req *user.LoginRequest, callOptions ...callopt.Option) (r *user.LoginResponse, err error)
 	SendVerificationCode(ctx context.Context, req *user.SendVerificationCodeRequest, callOptions ...callopt.Option) (r *user.SendVerificationCodeResponse, err error)
 	GetUserInfo(ctx context.Context, req *user.GetUserInfoRequest, callOptions ...callopt.Option) (r *user.GetUserInfoResponse, err error)
+	UploadUserAvatar(ctx context.Context, req *user.UploadUserAvatarRequest, callOptions ...callopt.Option) (r *user.UploadUserAvatarResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -64,4 +65,9 @@ func (p *kUserServiceClient) SendVerificationCode(ctx context.Context, req *user
 func (p *kUserServiceClient) GetUserInfo(ctx context.Context, req *user.GetUserInfoRequest, callOptions ...callopt.Option) (r *user.GetUserInfoResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.GetUserInfo(ctx, req)
+}
+
+func (p *kUserServiceClient) UploadUserAvatar(ctx context.Context, req *user.UploadUserAvatarRequest, callOptions ...callopt.Option) (r *user.UploadUserAvatarResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.UploadUserAvatar(ctx, req)
 }

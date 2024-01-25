@@ -8,7 +8,7 @@ struct BaseResp {
 struct User {
     1: i64 id
     2: string name
-    3: string avatar
+    3: string avatar_url
 }
 
 struct RegisterRequest{
@@ -52,9 +52,20 @@ struct GetUserInfoResponse{
     2: User user
 }
 
+struct UploadUserAvatarRequest{
+    1: string token
+    2: binary avatar
+}
+
+struct UploadUserAvatarResponse{
+    1: BaseResp base
+    2: User user
+}
+
 service UserService{
     RegisterResponse Register(1:RegisterRequest req)
     LoginResponse Login(1:LoginRequest req)
     SendVerificationCodeResponse SendVerificationCode(1:SendVerificationCodeRequest req)
     GetUserInfoResponse GetUserInfo(1:GetUserInfoRequest req)
+    UploadUserAvatarResponse UploadUserAvatar(1:UploadUserAvatarRequest req)
 }

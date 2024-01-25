@@ -4,6 +4,7 @@ type config struct {
 	Mysql mysql
 	Redis redis
 	Email email
+	Cos   cos
 }
 
 type mysql struct {
@@ -23,4 +24,9 @@ type email struct {
 	SmtpHost  string
 	SmtpEmail string
 	SmtpPass  string
+}
+
+type cos struct {
+	BucketName string
+	Region     string
 }

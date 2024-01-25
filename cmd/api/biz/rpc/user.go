@@ -76,3 +76,16 @@ func UserSendVerificationCode(ctx context.Context, req *user.SendVerificationCod
 
 	return nil
 }
+
+func UserUploadAvatar(ctx context.Context, req *user.UploadUserAvatarRequest) (*user.User, error) {
+	resp, err := userClient.UploadUserAvatar(ctx, req)
+
+	if err != nil {
+		return nil, err
+	}
+	if resp.Base.Code != errz.SuccessCode {
+		return nil, errors.New(resp.Base.Msg)
+	}
+
+	return resp.User, nil
+}
