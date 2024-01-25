@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ice_pomelo
+      MYSQL_DATABASE: ice_pomelo
+      MYSQL_USER: ice_pomelo
+      MYSQL_PASSWORD: ice_pomelo
+    ports:
+      - "3306:3306"
+    networks:
+      - ice_pomelo
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    environment:
+            - REDIS_PASSWORD=ice_pomelo
+            - ALLOW_EMPTY_PASSWORD=no
+    ports:
+      - "6379:6379"
+    networks:
+      - ice_pomelo
+
+networks:
+    ice_pomelo:
+        driver: bridge

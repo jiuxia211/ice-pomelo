@@ -1,0 +1,17 @@
+
+
+mysql:
+  addr: 127.0.0.1:3306
+  database: ice_pomelo
+  username: ice_pomelo
+  password: ice_pomelo
+  charset: utf8mb4
+
+redis:
+  addr: 127.0.0.1:6379
+  password: tiktok
+
+email:
+  SmtpHost: smtp.qq.com
+  SmtpEmail: 2064166368@qq.com
+  SmtpPass: hukcbqioqmbedaii
