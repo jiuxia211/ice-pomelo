@@ -1,6 +1,6 @@
 module github.com/jiuxia211/ice-pomelo
 
-go 1.21.3
+go 1.21
 
 replace github.com/apache/thrift => github.com/apache/thrift v0.13.0
 
