@@ -12,12 +12,16 @@ const (
 
 	UserTableName   = "user"
 	TinyIDTableName = "tiny_id"
+	VideoTableName  = "video"
 
-	UserRedisDB = 1
+	UserRedisDB  = 1
+	VideoRedisDB = 2
 
-	UserBizType = 1000
-	JWTValue    = "ice_pomelo"
+	UserBizType  = 1000
+	VideoBizType = 2000
+	JWTValue     = "ice_pomelo"
 
 	UserServiceName   = "user"
 	TinyIDServiceName = "tiny_id"
+	VideoServiceName  = "video"
 )

@@ -27,6 +27,3 @@ COPY --from=builder /app/cmd /app/cmd
 COPY --from=builder /app/config /app/config
 
 CMD ["sh", "-c", "cd cmd/${service}/output && sh bootstrap.sh"]
-#docker run -d --name "ice-pomelo-api" -e service="api" --net=host ice-pomelo
-#docker run -d --name "ice-pomelo-user" -e service="user" --net=host ice-pomelo
-#docker run -d --name "ice-pomelo-tiny_id" -e service="tiny_id" --net=host ice-pomelo

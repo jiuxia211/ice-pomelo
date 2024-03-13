@@ -12,10 +12,6 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-type ApiClaims struct {
-	jwt.StandardClaims
-}
-
 func CreateToken(userId int64) (string, error) {
 	expireTime := time.Now().Add(24 * 7 * time.Hour) // 过期时间为7天
 	nowTime := time.Now()                            // 当前时间

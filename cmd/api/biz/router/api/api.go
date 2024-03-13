@@ -19,6 +19,9 @@ func Register(r *server.Hertz) {
 	root := r.Group("/", rootMw()...)
 	{
 		_pomelo := root.Group("/pomelo", _pomeloMw()...)
+		_pomelo.PUT("/video", append(_uploadvideoMw(), api.UploadVideo)...)
+		_video := _pomelo.Group("/video", _videoMw()...)
+		_video.GET("/feed", append(_feedMw(), api.Feed)...)
 		_pomelo.GET("/user", append(_getuserinfoMw(), api.GetUserInfo)...)
 		_user := _pomelo.Group("/user", _userMw()...)
 		_user.PUT("/avatar", append(_uploaduseravatarMw(), api.UploadUserAvatar)...)

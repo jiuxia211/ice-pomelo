@@ -50,3 +50,18 @@ func _user0Mw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _videoMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _feedMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _uploadvideoMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

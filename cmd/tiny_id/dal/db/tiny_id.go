@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
 )
 
@@ -41,6 +42,7 @@ func GetMaxTinyID(ctx context.Context, bizType int64) (maxID int64, err error) {
 		return 0, err
 	}
 	maxID = tinyID.MaxID
+	klog.Debugf("redis biz type %v get id info %+v\n", bizType, tinyID)
 	// 更新tinyID
 	tinyID.Version++
 	tinyID.MaxID += tinyID.Step

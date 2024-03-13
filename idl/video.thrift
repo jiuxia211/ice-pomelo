@@ -10,11 +10,18 @@ struct Video{
     2: i64 uid
     3: string video_url
     4: string cover_url
+    5: string title
+    6: string introduction
 }
 struct UploadVideoRequest{
     1: string token
     2: binary videoFile
-    3: binary coverFile
+    3: string video_format
+    4: binary coverFile
+    5: string cover_format
+    6: string title
+    7: string introduction
+   
 }
 
 struct UploadVideoResponse{
@@ -29,4 +36,9 @@ struct FeedRequest{
 struct FeedResponse{
     1: BaseResp base
     2: list<Video> video_list
+}
+
+service videoService{
+    UploadVideoResponse UploadVideo(1:UploadVideoRequest req)
+    FeedResponse Feed(1:FeedRequest req)
 }
