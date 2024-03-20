@@ -8,6 +8,7 @@ require (
 	github.com/apache/thrift v0.13.0
 	github.com/cloudwego/hertz v0.7.3
 	github.com/cloudwego/kitex v0.8.0
+	github.com/hertz-contrib/websocket v0.1.0
 	github.com/spf13/viper v1.18.2
 	golang.org/x/crypto v0.16.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df

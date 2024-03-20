@@ -13,6 +13,7 @@ const (
 	UserTableName   = "user"
 	TinyIDTableName = "tiny_id"
 	VideoTableName  = "video"
+	ChatTableName   = "message"
 
 	UserRedisDB  = 1
 	VideoRedisDB = 2
@@ -24,4 +25,5 @@ const (
 	UserServiceName   = "user"
 	TinyIDServiceName = "tiny_id"
 	VideoServiceName  = "video"
+	ChatServiceName   = "chat"
 )

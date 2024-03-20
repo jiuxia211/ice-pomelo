@@ -7,8 +7,15 @@ import (
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/jiuxia211/ice-pomelo/cmd/api/biz/rpc"
+	"github.com/jiuxia211/ice-pomelo/cmd/api/biz/ws"
+	"github.com/jiuxia211/ice-pomelo/cmd/api/biz/ws/db"
 	"github.com/jiuxia211/ice-pomelo/config"
 )
+
+func wsInit() {
+	db.Init()
+	go ws.Manager.Start()
+}
 
 func main() {
 	klog.SetLevel(klog.LevelDebug)
@@ -21,6 +28,8 @@ func main() {
 		server.WithHostPorts("127.0.0.1:8888"),
 		server.WithMaxRequestBodySize(400*1024*1024))
 
+	h.NoHijackConnPool = true
 	register(h)
+	wsInit()
 	h.Spin()
 }
