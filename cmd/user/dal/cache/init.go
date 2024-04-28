@@ -2,6 +2,7 @@ package cache
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/jiuxia211/ice-pomelo/config"
@@ -12,6 +13,7 @@ import (
 var RedisClient *redis.Client
 
 func Init() {
+	fmt.Println(config.ConfigInfo.Redis.Password)
 	RedisClient = redis.NewClient(&redis.Options{
 		Addr:     config.ConfigInfo.Redis.Addr,
 		Password: config.ConfigInfo.Redis.Password,

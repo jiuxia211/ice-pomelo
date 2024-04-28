@@ -24,7 +24,6 @@ func main() {
 	rpc.Init()
 
 	h := server.New(
-		server.WithMaxRequestBodySize(20*1024*1024),
 		server.WithHostPorts("127.0.0.1:8888"),
 		server.WithMaxRequestBodySize(400*1024*1024))
 

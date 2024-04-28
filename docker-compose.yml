@@ -1,7 +1,6 @@
 version: '3.7'
 
 services:
-
   mysql:
     image: mysql:latest
     container_name: mysql
@@ -19,13 +18,44 @@ services:
     image: redis:latest
     container_name: redis
     environment:
-            - REDIS_PASSWORD=ice_pomelo
-            - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=ice_pomelo
+      - ALLOW_EMPTY_PASSWORD=no
     ports:
       - "6379:6379"
     networks:
       - ice_pomelo
 
+  elasticsearch:
+    image: elasticsearch:8.4.2
+    container_name: elasticsearch
+    environment:
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m" # 初始堆内存和最大堆内存大小,最小512m
+      discovery.type: single-node #运行模式 单点模式
+      TZ: Asia/Shanghai
+      xpack.security.enabled: "false"
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - ice_pomelo
+
+  kibana:
+    image: kibana:8.4.2
+    container_name: kibana
+    environment:
+      - I18N_LOCALE=zh-CN # 简体中文界面
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    volumes:
+      - ./data/kibana:/usr/share/kibana/data
+    networks:
+      - ice_pomelo
+
 networks:
-    ice_pomelo:
-        driver: bridge
+  ice_pomelo:
+    driver: bridge
