@@ -31,8 +31,6 @@ func Init() {
 	sqlDB.SetMaxOpenConns(constants.MaxConnections)     // 最大连接数
 	sqlDB.SetConnMaxLifetime(constants.ConnMaxLifetime) // 最大可复用时间
 
-	db.AutoMigrate(&User{})
-
 	DB = db.Table(constants.UserTableName)
 
 }

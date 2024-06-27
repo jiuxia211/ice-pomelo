@@ -79,6 +79,9 @@ func (s *VideoServiceImpl) Feed(ctx context.Context, req *video.FeedRequest) (re
 	}
 
 	videoList, err := service.NewVideoService(ctx).FeedVideo(req)
+	if err != nil {
+		return nil, err
+	}
 	resp.Base = pack.BuildBaseResp(nil)
 	resp.VideoList = pack.VideoList(videoList)
 

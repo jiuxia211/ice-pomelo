@@ -10,7 +10,7 @@ var ConfigInfo config
 func Init() {
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("config.yaml")
-	viper.AddConfigPath("../../../config") // path从调用Init的地方开始算起
+	viper.AddConfigPath("./config") // path从调用Init的地方开始算起
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			klog.Fatalf("config file not found: %v", err)

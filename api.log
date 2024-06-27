@@ -1,0 +1,15 @@
+/home/jiuxia211/Projects/ice-pomelo/cmd/api/output/bin/api
+2024/06/28 02:20:18.338382 engine.go:668: [Debug] HERTZ: Method=PUT    absolutePath=/pomelo/video             --> handlerName=github.com/jiuxia211/ice-pomelo/cmd/api/biz/handler/api.UploadVideo (num=1 handlers)
+2024/06/28 02:20:18.338437 engine.go:668: [Debug] HERTZ: Method=GET    absolutePath=/pomelo/video/feed        --> handlerName=github.com/jiuxia211/ice-pomelo/cmd/api/biz/handler/api.Feed (num=1 handlers)
+2024/06/28 02:20:18.338443 engine.go:668: [Debug] HERTZ: Method=GET    absolutePath=/pomelo/user              --> handlerName=github.com/jiuxia211/ice-pomelo/cmd/api/biz/handler/api.GetUserInfo (num=1 handlers)
+2024/06/28 02:20:18.338454 engine.go:668: [Debug] HERTZ: Method=PUT    absolutePath=/pomelo/user/avatar       --> handlerName=github.com/jiuxia211/ice-pomelo/cmd/api/biz/handler/api.UploadUserAvatar (num=1 handlers)
+2024/06/28 02:20:18.338459 engine.go:668: [Debug] HERTZ: Method=POST   absolutePath=/pomelo/user/login        --> handlerName=github.com/jiuxia211/ice-pomelo/cmd/api/biz/handler/api.Login (num=1 handlers)
+2024/06/28 02:20:18.338463 engine.go:668: [Debug] HERTZ: Method=POST   absolutePath=/pomelo/user/register     --> handlerName=github.com/jiuxia211/ice-pomelo/cmd/api/biz/handler/api.Register (num=1 handlers)
+2024/06/28 02:20:18.338469 engine.go:668: [Debug] HERTZ: Method=POST   absolutePath=/pomelo/user/verification-code --> handlerName=github.com/jiuxia211/ice-pomelo/cmd/api/biz/handler/api.SendVerificationCode (num=1 handlers)
+2024/06/28 02:20:18.338475 engine.go:668: [Debug] HERTZ: Method=GET    absolutePath=/ping                     --> handlerName=github.com/jiuxia211/ice-pomelo/cmd/api/biz/handler.Ping (num=1 handlers)
+2024/06/28 02:20:18.338479 engine.go:668: [Debug] HERTZ: Method=GET    absolutePath=/pomelo/ws                --> handlerName=github.com/jiuxia211/ice-pomelo/cmd/api/biz/handler.WebsocketHandler (num=1 handlers)
+2024/06/28 02:20:18.344906 engine.go:396: [Info] HERTZ: Using network library=netpoll
+2024/06/28 02:20:18.345045 transport.go:115: [Info] HERTZ: HTTP server listening on address=127.0.0.1:8888
+2024/06/28 02:20:22.958898 hertz.go:113: [Info] HERTZ: Received signal: interrupt
+2024/06/28 02:20:22.958956 hertz.go:77: [Info] HERTZ: Begin graceful shutdown, wait at most num=5 seconds...
+2024/06/28 02:20:22.959035 engine.go:313: [Info] HERTZ: Execute OnShutdownHooks finish

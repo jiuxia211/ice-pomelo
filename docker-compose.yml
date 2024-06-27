@@ -1,4 +1,3 @@
-version: '3.7'
 
 services:
   mysql:
@@ -13,6 +12,9 @@ services:
       - "3306:3306"
     networks:
       - ice_pomelo
+    volumes:
+      - ./config/sql:/docker-entrypoint-initdb.d
+      - ./data/mysql:/var/lib/mysql
 
   redis:
     image: redis:latest
@@ -25,37 +27,23 @@ services:
     networks:
       - ice_pomelo
 
-  elasticsearch:
-    image: elasticsearch:8.4.2
-    container_name: elasticsearch
-    environment:
-      bootstrap.memory_lock: "true"
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m" # 初始堆内存和最大堆内存大小,最小512m
-      discovery.type: single-node #运行模式 单点模式
-      TZ: Asia/Shanghai
-      xpack.security.enabled: "false"
-    volumes:
-      - ./data/elasticsearch:/usr/share/elasticsearch/data
+  etcd:
+    container_name: etcd
+    image: "quay.io/coreos/etcd:v3.5.5"
+    restart: always
     ports:
-      - "9200:9200"
-    networks:
-      - ice_pomelo
-
-  kibana:
-    image: kibana:8.4.2
-    container_name: kibana
+      - "2379:2379"
+      - "2380:2380"
     environment:
-      - I18N_LOCALE=zh-CN # 简体中文界面
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    depends_on:
-      - elasticsearch
-    ports:
-      - "5601:5601"
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_API=3
+      - ALLOW_NONE_AUTHENTICATION=yes
     volumes:
-      - ./data/kibana:/usr/share/kibana/data
+      - ./data/etcd:/etcd-data
     networks:
-      - ice_pomelo
 
+      - ice_pomelo
 networks:
   ice_pomelo:
     driver: bridge

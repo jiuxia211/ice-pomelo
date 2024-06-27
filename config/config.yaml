@@ -14,7 +14,7 @@ redis:
 email:
   SmtpHost: smtp.qq.com
   SmtpEmail: 2064166368@qq.com
-  SmtpPass: hukcbqioqmbedaii
+  SmtpPass: rygqobfveqimcjbf
 
 cos:
   bucketName: ice-pomelo-1318531687
